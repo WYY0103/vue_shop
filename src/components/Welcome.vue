@@ -1,7 +1,6 @@
 <template>
   <div align="center">
 		<img src="../assets/logo.png" alt="">
-
 	</div>
 </template>
 
