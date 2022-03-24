@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <!-- 
+        快排  
+        冒泡  
+        堆排序
+        简单选择排序
+        二叉树
+        
+    
+    -->
+
+    <script>
+
+        var arr = [1,5,2,4,3,2];
+        // var t;
+        // 简单选择排序
+        // function sort1(arr) {
+        //     for (var i = 0; i < arr.length - 1; i++) {
+        //         for (var j = arr.length - 1; j < i; j--) {
+        //             if (arr[i] > arr[j]) {
+        //                 t = arr[i];
+        //                 arr[i] = arr[j];
+        //                 arr[j] = t;
+        //             }
+
+        //         }
+        //     }
+        //     return arr;
+        // }
+
+        // 快排   有基准
+        function swap(arr, low, high) {
+            var temp = arr[low];
+            arr[low] = arr[high];
+            arr[high] = temp;
+            return arr;
+        }
+        function quickSort(arr, low, high) {
+            var key = arr[low];
+            var start = low;
+            var end = high;
+            while (end > start) {
+                while (end > start && arr[end] >= key) { end--; }
+                swap(arr, start, end);
+                while (end > start && arr[start] <= key) { start++; }
+                swap(arr, start, end);
+            }
+            if (start > low) quickSort(arr, low, start - 1);
+            if (end < high) quickSort(arr, end + 1, high);
+            return arr;
+        }
+        console.log(quickSort(arr,0,5)); 
+
+
+
+
+        // function QuickSort(arr,low,high){
+        //     var key = arr[low];
+        //     var start = low;
+        //     var end = high;
+        //     while(start < end){
+        //         while(start < end && arr[start] <= key)   {start++;}
+        //         swap(arr,start,end);
+        //         while(start < end && arr[end] >= key)  {end--;}
+        //         swap(arr,start,end);
+        //     }
+        //     if(start > low)  QuickSort(arr,low,start-1);
+        //     if(end < high)  QuickSort(arr,end+1,high);
+        //     return arr;
+        // }
+
+       
+       
+
+
+
+        
+       
+
+
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
