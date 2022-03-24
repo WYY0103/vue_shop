@@ -6,7 +6,7 @@
               <img src="../assets/logo.png" alt="">
           </div>
 
-          <!-- 文本密码区域 -->
+          
           <!-- element-ui本身就是写页面的一个库 elememnt-ui中定义图标库prefix-icon-->
           <!-- ref  代表当前表单的对象 -->
           <el-form label-width="0px" class="login_form" :rules="LoginFormRules" :model="LoginForm" ref="LoginFormRef">
