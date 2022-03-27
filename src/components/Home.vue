@@ -82,13 +82,13 @@ export default {
       },
       //控制菜单是折叠还是展开的选项
       isCollapse: false,
-      activepath: '',
+      activepath: "",
     };
   },
   created() {
     this.getMenuList();
     // 创建时就为点击蓝色
-    this.activepath = window.sessionStorage.getItem('activepath');
+    this.activepath = window.sessionStorage.getItem("activepath");
   },
   methods: {
     logout() {
