@@ -5,13 +5,18 @@
         <img src="../assets/logo.png" alt="" />
         <span>电商后台管理系统</span>
       </div>
-      <el-button type="info" @click="logout" id="btn">退出</el-button>
+      <el-button type="info" @click="logout">退出</el-button>
     </el-header>
-
     <el-container>
-        <!-- 宽度是动态修改的  当折叠时宽度变小  所以宽度可是否折叠要联系使用 -->
-      <el-aside :width="isCollapse? '64px':'200px'">
+      <!-- 左侧下拉 -->
+      <!-- 应该有两个宽度
+			 200  64 两个值
+			 也就是说  我再width这个属性的时候  也是动态绑定的属性
+			 
+			 -->
+      <el-aside :width="isCollapse ? '64px' : '200px'">
         <div class="toggle-button" @click="toggleCollapse">|||</div>
+
         <el-menu
           class="el-menu-vertical-demo"
           background-color="#333744"
@@ -21,28 +26,24 @@
           :collapse="isCollapse"
           :collapse-transition="false"
           router
+          :default-active="activepath"
         >
-        <!-- 当我menu 开启路由模式的时候  menu会把index属性的值作为我跳转的地址 -->
-          <!-- 
-                key  规定唯一标识符   这里要通过接口里面的内容来获取数据 
-                避免点击一个其他也被点击  这里的index要动态唯一          
-            -->
+          <!-- 这为什么要写key  因为规定这个唯一标识符 -->
           <el-submenu
             :index="item.id + ''"
             v-for="item in menulist"
             :key="item.id"
           >
-            <!-- 一级列表  通过接口来获取一级列表的内容-->
             <template slot="title">
               <i :class="iconsObj[item.id]"></i>
               <span>{{ item.authName }}</span>
             </template>
-
-            <!-- 二级列表    通过一级列表来获取二级列表的内容-->
+            <!-- 当我menu 开启路由模式的时候  menu会把index属性的值作为我跳转的地址 -->
             <el-menu-item
-              :index="'/'+subitem.path"
+              :index="'/' + subitem.path"
               v-for="subitem in item.children"
               :key="subitem.id"
+              @click="saveNavState('/' + subitem.path)"
             >
               <template slot="title">
                 <i class="el-icon-menu"></i>
@@ -52,13 +53,14 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-
       <el-main>
-          <router-view></router-view>        
+        <!-- 路由占位符  这样才能呈现我的子组件 -->
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
+
 
 
 <script>
@@ -80,7 +82,7 @@ export default {
       },
       //控制菜单是折叠还是展开的选项
       isCollapse: false,
-
+      activepath: "",
     };
   },
   created() {
@@ -101,6 +103,10 @@ export default {
     },
     toggleCollapse() {
       this.isCollapse = !this.isCollapse;
+    },
+    saveNavState(activepath) {
+      window.sessionStorage.setItem("activepath", activepath);
+      this.activepath = activepath;
     },
   },
 };

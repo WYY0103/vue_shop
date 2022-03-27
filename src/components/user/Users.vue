@@ -87,6 +87,7 @@
                 type="warning"
                 icon="el-icon-setting"
                 size="mini"
+                @click="setRole(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -158,6 +159,37 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="EditUserInfo">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 分配权限对话框 -->
+    <el-dialog
+      title="分配权限"
+      :visible.sync="setRightDialogVisible"
+      width="30%"
+    >
+      <span>
+        <div>
+          <p>当前的用户：{{ userinfo.username }}</p>
+          <p>当前的角色：{{ userinfo.role_name }}</p>
+          <p>
+            分配新角色：
+            <!-- selectRoleId 用于记录你最终选择了那个选项 -->
+            <el-select v-model="selectRoleId" placeholder="请选择">
+              <el-option
+                v-for="item in roleList"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </p>
+        </div>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRightDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -261,6 +293,11 @@ export default {
           },
         ],
       },
+      setRightDialogVisible: false,
+      // 用于接收接口返回的角色列表信息
+      roleList: [],
+      userinfo: {},
+      selectRoleId: '',
     };
   },
   created() {
@@ -316,7 +353,7 @@ export default {
       this.$message.success("删除用户成功");
       this.getUserList();
     },
-    // 
+    //
     async showEditDialog(id) {
       this.editDialogVisible = true;
       // 通过id查询单条数据
@@ -333,6 +370,21 @@ export default {
       this.$message.success("修改用户成功");
       this.editDialogVisible = false;
       this.getUserList();
+    },
+    async setRole(row) {
+      const { data: res } = await this.$http.get("roles");
+      this.roleList = res.data;
+      this.userinfo = row;
+      this.setRightDialogVisible = true;
+    },
+    async saveRoleInfo() {
+      // 安全验证，若用户没有选择则提示用户
+      if (!this.selectRoleId) return this.$message.error("请选择分配的角色");
+      const { data: res } = await this.$http.put(`users/${this.userinfo.id}/role`, {rid: this.selectRoleId,});
+      if (res.meta.status !== 200) return this.$message.error("修改角色失败");
+      this.$message.success("修改角色成功");
+      this.getUserList();
+      this.setRightDialogVisible = false;
     },
   },
 };
