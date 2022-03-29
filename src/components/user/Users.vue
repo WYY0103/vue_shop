@@ -9,7 +9,7 @@
     <el-card class="box-card">
       <!-- 
             通过el-row进行布局
-            分成不同过el-col  每个el-col按照span的份数进行占位          
+            分成不同的el-col  每个el-col按照span的份数进行占位          
             gutter  两个格子隔开的距离   
         -->
       <el-row :gutter="20">
