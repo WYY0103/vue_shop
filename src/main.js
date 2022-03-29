@@ -7,10 +7,16 @@ import './assets/fonts/iconfont.css'
 import axios from 'axios'
 
 
+import echarts from 'echarts'
+
+
+
 // 设置接口地址
 axios.defaults.baseURL='http://vueshop.pixiv.download/api/private/v1/'
 // 将axios挂载到vue原型上
 Vue.prototype.$http = axios
+
+
 
 //axios 请求预处理  不用特殊的记  能找到地方复制粘贴就行
 axios.interceptors.request.use(config=>{
