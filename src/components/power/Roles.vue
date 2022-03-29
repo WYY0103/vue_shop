@@ -16,9 +16,38 @@
 
       <!-- 列表区域 -->
       <el-table :data="rolelist" border stripe>
-          <!-- 下拉板 -->
+          <!-- 下拉板 expand-->
         <el-table-column type="expand">
-            
+
+            <template slot-scope="scope">
+                <!-- {{scope.row}} -->
+
+                <el-row v-for="(item1,i1) in scope.row.children" :key="item1.id" :class="['bdbottom',i1===0?'bdtop':'','vcenter']">
+                    <!-- 第一级  边框采用动态属性   若为第一级则加入属性-->
+                    <el-col :span="5">
+                        <el-tag closable>{{item1.authName}}</el-tag>
+						<i class="el-icon-caret-right"></i>
+                    </el-col> 
+                    <!-- 第二级和第三级 -->
+                    <el-col :span="19">
+                       <el-row v-for="(item2,i2) in item1.children" :key="item2.id" :class="[i2===0?'':'bdtop','vcenter']">
+                           <!-- 第二级 -->
+                           <el-col :span="6">
+                               <el-tag type="success" closable>{{item2.authName}}</el-tag>
+							   <i class="el-icon-caret-right"></i>
+                           </el-col>
+                           <!-- 第三级 -->
+                           <el-col :span="18">
+                               <el-tag type="warning" closable v-for="(item3,i3) in item2.children" :key="item3.id" @close="removeRightById(scope.row,item3.id)">{{item3.authName}}</el-tag>
+
+                           </el-col>
+                       </el-row>
+
+                    </el-col>
+
+                </el-row>
+            </template>
+
 
         </el-table-column>
         
@@ -173,12 +202,37 @@ export default {
     },
     showSetRightDialog(id){
         this.setRightDialogVisible = true;
+    },
+    async removeRightById(row,rightid){
+        const {data:res } = await this.$http.delete(`roles/${row.id}/rights/${rightid}`);
+        if(res.meta.status!==200) return this.$message.error('删除权限失败');
+	    this.$message.success('删除权限成功');
+        // 不用刷新列表  将请求后的数据赋值给当前数据即可
+        row.children = res.data;
     }
   },
 };
 </script>
 
 <style lang="less" scoped>
+
+    .el-tag {
+		margin: 7px;
+	}
+	
+	.bdtop {
+		border-top: 1px solid #eee;
+	}
+	
+	.bdbottom {
+		border-bottom: 1px solid #eee;
+	}
+	
+	.vcenter {
+		display: flex;
+		align-items: center;
+	}
+
 
 
 </style>

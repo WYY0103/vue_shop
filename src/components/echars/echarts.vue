@@ -40,7 +40,7 @@
         myChart.setOption(res.data);
         },
     },
-    };
+};
 </script>
 
 <style>
