@@ -20,7 +20,6 @@
         <el-table-column type="expand">
 
             <template slot-scope="scope">
-                <!-- {{scope.row}} -->
 
                 <el-row v-for="(item1,i1) in scope.row.children" :key="item1.id" :class="['bdbottom',i1===0?'bdtop':'','vcenter']">
                     <!-- 第一级  边框采用动态属性   若为第一级则加入属性-->
