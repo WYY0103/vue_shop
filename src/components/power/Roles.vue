@@ -95,7 +95,7 @@
 			  	<el-form-item label="角色描述">
 			  		<el-input v-model="editForm.roleDesc"></el-input>
 			  	</el-form-item>
-			  </el-form>
+		  </el-form>
       </span>
 
       <span slot="footer" class="dialog-footer">
@@ -108,7 +108,10 @@
     <!-- 分配权限对话框 -->
     <el-dialog title="分配权限" :visible.sync="setRightDialogVisible" width="30%">
       <span>
-          11111
+          <!-- props  需要读取的配置项 default-expand-all 所有选项展开 default-checked-keys 获取已经选择的-->
+          <el-tree :data="rightsList" node-key="id" default-checked-keys="defKeys" ref="treeRef" :props="treePorps" default-expand-all >
+
+          </el-tree>
       </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取 消</el-button>
@@ -162,6 +165,14 @@ export default {
       editDialogVisible:false,
       editForm:{},
       setRightDialogVisible:false,
+      rightsList :[],
+      treePorps:{
+          // label  显示的文字部分  
+          label:'authName',
+          // children  从哪读取
+          children:'children'
+      },
+      defKeys:[],
     };
   },
   created() {
@@ -199,8 +210,13 @@ export default {
         this.$message.success('删除成功');
         this.getRoleList();
     },
-    showSetRightDialog(id){
+    async showSetRightDialog(row){
+        const {data:res} =await this.$http.get('rights/tree');
+        if(res.meta.status!==200) return this.$message.error('获取失败');
+        // this.$message.success('获取成功');
+        this.rightsList = res.data;
         this.setRightDialogVisible = true;
+
     },
     async removeRightById(row,rightid){
         const {data:res } = await this.$http.delete(`roles/${row.id}/rights/${rightid}`);
