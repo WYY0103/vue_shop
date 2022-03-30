@@ -7,6 +7,7 @@ import Welcome from '../components/Welcome.vue'
 import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
 import Echart from '../components/echars/echarts.vue'
+import Order from '../components/order/order.vue'
 
 
 
@@ -27,6 +28,8 @@ const routes = [
       { path: '/rights', component: Rights },
       { path: '/roles', component: Roles },
       { path: '/reports', component: Echart },
+      { path: '/orders', component: Order },
+
     ]
   }
 
