@@ -108,14 +108,21 @@
     <!-- 分配权限对话框 -->
     <el-dialog title="分配权限" :visible.sync="setRightDialogVisible" width="30%">
       <span>
-          <!-- props  需要读取的配置项 default-expand-all 所有选项展开 default-checked-keys 获取已经选择的-->
-          <el-tree :data="rightsList" node-key="id" default-checked-keys="defKeys" ref="treeRef" :props="treePorps" default-expand-all >
+          <!-- 
+            props  需要读取的配置项 
+            default-expand-all 所有选项展开 
+            default-checked-keys 获取已经选择的
+          -->
+          <el-tree :data="rightsList" show-checkbox node-key="id" default-expand-all :default-checked-keys="defKeys" ref="treeRef" :props="treePorps">
+			
+			    </el-tree>
 
-          </el-tree>
       </span>
+
+
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="setRightDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="allotRights">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -173,6 +180,7 @@ export default {
           children:'children'
       },
       defKeys:[],
+      roleid:'',
     };
   },
   created() {
@@ -211,19 +219,45 @@ export default {
         this.getRoleList();
     },
     async showSetRightDialog(row){
-        const {data:res} =await this.$http.get('rights/tree');
-        if(res.meta.status!==200) return this.$message.error('获取失败');
+        // 将角色id保存  用于下面的请求
+        this.roleid = row.id;
+        const {data:res} = await this.$http.get('rights/tree');
+				if(res.meta.status!==200) return this.$message.error('获取失败');
         // this.$message.success('获取成功');
-        this.rightsList = res.data;
-        this.setRightDialogVisible = true;
-
+				this.rightsList = res.data;
+        // 调用递归函数显示用户已有的权限
+				this.getLeafKeys(row,this.defKeys);
+				this.setRightDialogVisible=true;
     },
+    // 通过递归调用获取到最底层选项
+    getLeafKeys(node,arr){
+				// 如果没有children属性  那么肯定是最底层选项
+				if(!node.children){
+					return arr.push(node.id);
+				}
+				//如果是第一级  和第二级的选项  那么调用自身  往下继续找
+				node.children.forEach(item=>this.getLeafKeys(item,arr));
+			},
     async removeRightById(row,rightid){
         const {data:res } = await this.$http.delete(`roles/${row.id}/rights/${rightid}`);
         if(res.meta.status!==200) return this.$message.error('删除权限失败');
 	    this.$message.success('删除权限成功');
         // 不用刷新列表  将请求后的数据赋值给当前数据即可
         row.children = res.data;
+    },
+    async allotRights(){
+      // getCheckedKeys   返回目前被选中的节点的 key 所组成的数组
+      // getHalfCheckedKeys   返回目前半选中的节点所组成的数组	
+      const keys = [
+        ...this.$refs.treeRef.getCheckedKeys(),
+        ...this.$refs.treeRef.getHalfCheckedKeys()
+      ];
+      const idStr = keys.join(',');
+      const {data:res} = await this.$http.post(`roles/${this.roleid}/rights`,{rids:idStr});
+      if(res.meta.status!==200) return this.$message.error('更新权限失败');
+      this.$message.success('更新权限成功');
+      this.getRoleList();
+      this.setRightDialogVisible = false;
     }
   },
 };
