@@ -11,7 +11,7 @@
           <!-- ref  代表当前表单的对象 -->
           <el-form label-width="0px" class="login_form" :rules="LoginFormRules" :model="LoginForm" ref="LoginFormRef">
             <el-form-item prop="username">
-                <el-input v-model="LoginForm.username" prefix-icon="iconfont icon-user"></el-input>
+                <el-input v-model="LoginForm.username" prefix-icon="iconfont icon-user" placeholder="用户名:"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input type="password" v-model="LoginForm.password" prefix-icon="iconfont icon-3702mima"></el-input>

@@ -146,7 +146,7 @@
         // 先将数据导入，再绑定到data层，然后再双向数据绑定到对话框上
         cityData: cityData,
         cityProps: {
-          // 从el-cascader标签的属性,中移动到这个cascadeProps中
+          // 从el-cascader标签的属性中移动到这个cascadeProps中
           expandTrigger: 'hover'
         },
         progressVisible:false,

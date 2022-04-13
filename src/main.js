@@ -9,6 +9,9 @@ import axios from 'axios'
 
 import echarts from 'echarts'
 
+import TreeTable from 'vue-table-with-tree-grid'
+Vue.component('tree-table',TreeTable);
+
 
 
 // 设置接口地址

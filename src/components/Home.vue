@@ -114,50 +114,50 @@ export default {
 </script>
 
 <style lang="less" scoped="scoped">
-.home-container {
-  height: 100%;
-}
-// 特性 就是标签的名字  就是你class的名字
-.el-header {
-  background-color: #373d41;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 0;
-  color: #fff;
-  font-size: 20px;
-
-  > div {
+  .home-container {
+    height: 100%;
+  }
+  // 特性 就是标签的名字  就是你class的名字
+  .el-header {
+    background-color: #373d41;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    span {
-      margin-left: 15px;
+    padding-left: 0;
+    color: #fff;
+    font-size: 20px;
+
+    > div {
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 15px;
+      }
+    }
+
+    img {
+      width: 13%;
     }
   }
 
-  img {
-    width: 13%;
+  .el-aside {
+    background-color: #333744;
+    .el-menu {
+      border-right: none;
+    }
   }
-}
-
-.el-aside {
-  background-color: #333744;
-  .el-menu {
-    border-right: none;
+  .iconfont {
+    margin-right: 10px;
   }
-}
-.iconfont {
-  margin-right: 10px;
-}
-.toggle-button {
-  color: #fff;
-  background-color: #4a5064;
-  font-size: 10px;
-  line-height: 24px;
-  text-align: center;
-  // 让三个||| 彼此之间不要那么近 有一定距离 0.3em
-  letter-spacing: 0.3em;
-  // 变成小手的样式
-  cursor: pointer;
-}
+  .toggle-button {
+    color: #fff;
+    background-color: #4a5064;
+    font-size: 10px;
+    line-height: 24px;
+    text-align: center;
+    // 让三个||| 彼此之间不要那么近 有一定距离 0.3em
+    letter-spacing: 0.3em;
+    // 变成小手的样式
+    cursor: pointer;
+  }
 </style>

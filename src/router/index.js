@@ -8,6 +8,7 @@ import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
 import Echart from '../components/echars/echarts.vue'
 import Order from '../components/order/order.vue'
+import Cate from '../components/goods/cate.vue'
 
 
 
@@ -29,6 +30,8 @@ const routes = [
       { path: '/roles', component: Roles },
       { path: '/reports', component: Echart },
       { path: '/orders', component: Order },
+      { path: '/categories', component: Cate },
+
 
     ]
   }

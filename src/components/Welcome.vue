@@ -1,7 +1,7 @@
 <template>
   <div align="center">
-		<img src="../assets/logo.png" alt="">
-	</div>
+    <img src="../assets/logo.png" alt="" />
+  </div>
 </template>
 
 <script>
